@@ -1,0 +1,369 @@
+Necesitamos hacer que el CSS sea:
+Limpio 🧹: Sin código innecesario y bien organizado.
+Escalable 📈: Listo para crecer y adaptarse a proyectos más grandes.
+Mantenible 🔧: Fácil de mantener y modificar sin problemas. .
+Para lograrlo, podemos aplicar principios de programación orientada a objetos, como:
+.
+
+SOLID 🤝: Un conjunto de cinco principios para un código de calidad y fácil de mantener.
+DRY 🌵: No repitas código, ¡mejor eficiencia y menos errores!
+IMMUTABILITY ⛔️: Promueve la inmutabilidad para datos más seguros. .
+ARQUITECTURA
+Cómo se divide el código en archivos y carpetas.
+
+Y cómo trabajamos con nuestros selectores (Nombramientos de clases)
+
+Solid Principles
+1.	Single Responsability
+Una clase de tener una sola razon para cambiar
+Frase popularizada por Robert C. Martin en su libro Clean Code se refiera a que cada clase debe hacer una sola cosa y hacerla bien.
+<button class="button button--secondary">
+  Soy Un Boton
+</button>
+.button {
+    border-radius: 2rem;
+  }
+
+.button--secondary {
+   background-color: grey;
+   color: black;
+}
+no dejar que entren codigo que pueda limitar y desviar el proposito de la clase .
+2.	Open-Closed La entidades de software deben estar abiertas para extensión pero cerrada para modificación
+3.	.button {
+4.	    border-radius: 2rem;
+5.	  }
+6.	
+7.	.button--secondary {
+8.	   @extend .button--sm;
+9.	   background-color: grey;
+10.	   color: black;
+}
+.
+11.	Liskov Subtitution Propuesto por Barbara Liskov
+Un objeto puede ser reemplazado por un subojeto sin romper el programas
+•	Una clase derivada debe poder ser utilizada en lugar de la clase base sin romper el comportamiento esperado del programa.
+•	<button class="button--secondary">
+•	  Soy Un Boton
+</button>
+.button {
+    border-radius: 2rem;
+  }
+
+.button--secondary {
+   @extend .button;
+   background-color: grey;
+   color: black;
+}
+.
+12.	Interface Segregation No se debe obligar a ningun codigo a depender de metodos que no utiliza. Una interfaz debe ser específica y contener solo los métodos que sean relevantes para las clases que la implementan. No se deben forzar a las clases a implementar métodos que no necesitan, ya que esto podría llevar a una dependencia innecesaria y acoplamiento entre clases.
+13.	.button {
+14.	    border-radius: 2rem;
+15.	  }
+16.	
+17.	.button--secondary {
+18.	   @extend .button;
+19.	   background-color: grey;
+20.	   color: black;
+21.		 border-radius: 1.5rem;
+}
+.
+22.	Depency Inversion Modulos de alto nivel no deben depender de modulos de bajo nivel. Ambos deberian depender de abstracciones. Este principio facilita la reutilización del código, ya que los módulos pueden ser intercambiados o extendidos más fácilmente a través de las interfaces, sin alterar la lógica general del sistema. ❌
+23.	.card div .title {
+24.	   font-size: 2rem;
+}
+✅
+.text-md {
+   font-size: 2rem;
+}
+.
+Don’t Repeat Yourself
+Reducir la repeticion de código
+❌
+.card {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid grey;
+  width: 100%;
+  height: 20rem;
+}
+
+.card div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+}
+✅
+.center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .card {
+    @extend .center;
+    border: 1px solid grey;
+    width: 100%;
+    height: 20rem;
+  }
+
+  .card div {
+    @extend .center;
+    padding: 2rem;
+  }
+.
+Inmutability
+Objeto cuyo estado no puede ser modificado una ver creado.
+. card p {
+	color: black;
+}
+
+.grey {
+	color: gray !important
+}
+<div class="card">
+  <p class="grey">Grey y su padre card</p>
+</div>
+
+
+BEM 🚀
+.
+1.	BEM (Block Element Modifier): Es una metodología que se centra en la estructura del HTML y nombra las clases de manera descriptiva para formar bloques (componentes), elementos y modificadores. . Ejemplo:
+<div class="comment">
+  <img src="imagen-usuario.jpg" alt="Imagen de usuario" class="comment__avatar">
+  <p class="comment__text">Este es un comentario.</p>
+  <button class="comment__button comment__button--like">Me gusta</button>
+</div>
+/* Estilo base para el bloque de comentario */
+.comment {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+/* Estilos para el avatar del usuario en el comentario */
+.comment__avatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  margin-right: 0.5rem;
+}
+
+/* Estilos para el texto del comentario */
+.comment__text {
+  font-size: 1rem;
+}
+
+/* Estilos para el botón de "Me gusta" en el comentario */
+.comment__button {
+  background-color: #3b5998;
+  color: white;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+/* Estilos para el modificador de botón de "Me gusta" destacado */
+.comment__button--like {
+  background-color: #1877f2;
+}
+
+
+Que hacer y que no hacer.
+La hora de querer aplicar la metodologia bem, hay que identificar los bloques elementos y modificadores:
+<!-- Formulario de Inicio de Sesión -->
+<div class="login-form">
+  <h2 class="login-form__title">Iniciar Sesión</h3>
+  <form class="login-form__form">
+    <div class="login-form__form-group">
+      <label for="username" class="login-form__label">Nombre de usuario:</label>
+      <input type="text" id="username" class="login-form__input" placeholder="Ingresa tu nombre de usuario" required>
+    </div>
+    <div class="login-form__form-group">
+      <label for="password" class="login-form__label">Contraseña:</label>
+      <input type="password" id="password" class="login-form__input" placeholder="Ingresa tu contraseña" required>
+    </div>
+    <button type="submit" class="login-form__submit-button login-form__submit-button--hoverable">Iniciar Sesión</button>
+  </form>
+</div>
+/* Estilos base del Formulario de Inicio de Sesión */
+.login-form {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+}
+
+/* Estilos del título */
+.login-form__title {
+  text-align: center;
+  font-size: 24px;
+  color: #007bff;
+  margin-bottom: 20px;
+}
+
+/* Estilos del formulario */
+.login-form__form-group {
+  margin-bottom: 15px;
+}
+
+.login-form__label {
+  display: block;
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.login-form__input {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.login-form__submit-button {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+/* Modificador: Botón de Submit Hoverable */
+.login-form__submit-button--hoverable:hover {
+  background-color: #0056b3;
+}
+Casos con lo que debes y no debes hacer con BEM
+1.	Caso uno
+✅ Dejar la clase principal y añadir otra con modificador
+❌ Usar la clase con modificador como si fuera la clase principal
+2.	Caso dos
+✅ No representar los niveles de profundida de HTML con BEM
+❌ Respresentar los niveles de profundidad de HTML con BEM
+3.	Caso tres ✅ Incluir la clase en un hijo que necesita estilos ❌ Anidar con selectores por no colocarle la clase a los hijos
+
+
+PROBLEMAS BEM
+1.	Problema uno
+Tengo un componente A que ya tiene sus propias clases y deseo añadirlo a un nuevo componente B. Debo agregar una nueva conveción para el componente A que está dentro de B?
+Respuesta: No necesariamente por que, lo que estoy tratando es de no repetir codigo y a mi parecer esto lo que haria es verme con la necesidad de escribir o extender el codigo de otra clase.
+2.	Problema dos
+En mi estructura de html tengo padres, hijos, nietos, tataranietos, etc; Pero BEM sólo deja usar 3 niveles. Que hago con los elementos nietos y sus descendientes?
+Respuesta: Simplemente los trataria a todos como si fueran hijos.
+3.	Problema tres
+Quiero utilizar la propiedad display: none para ocultar desde js un componente de card y componente de botón. Debo crear una clase para cáda componente siguiendo su propia estructura de BEM (card—hidden y button—hidden).
+Respuesta: Idealmente no, si lo que hace es ocultar con que cree una clase que se llame hidden que contenga el display: none seria suficiente.
+Recomendaciones
+Los proyecto que usan BEM son:
+•	Fáciles de leer
+•	Muy intuitivos
+•	Permiten evitar selectores anidados
+BEM permite personalizar sus reglas y nomenclaturas.
+
+
+Atomic Design
+.
+•	Atomos ⚛️
+Elementos de interfaz que no se pueden dividir más y sirve como bloques de construción
+Ejemplo: Label Input Button .
+•	Moleculas 🦠
+Son Colecciones de átomos que forman componentes de interfaz de usuario relarivamente simples
+Label > Input-Button .
+•	Organismos 🌵
+Son componentes relativamente complejos que forman secciones discretas de Interfaz
+Header > Img-Nav > ul > Li-Label
+.
+•	Plantillas (Templates)📟
+Colocan componentes dentro de un diseño y demuestran la estructura de contenido subyacente al diseño
+Body > Header - Main - Footer .
+•	Páginas 📄
+Aplican contenido real a las plantillas
+Happy Day! 🌞
+
+
+Arquitectura OOCSS (Object-Oriented CSS)
+OOCSS es una metodología de desarrollo de CSS que se basa en principios de programación orientada a objetos. Su objetivo es crear estilos reutilizables, modulares y mantenibles para construir interfaces de usuario eficientes y escalables. OOCSS busca separar la estructura y el diseño visual, lo que significa que los estilos que definen la apariencia visual de un elemento deben ser independientes de la estructura del HTML.
+Principios de OOCSS:
+1.	Separación de estructura y diseño: Los estilos se dividen en dos categorías principales: estructura y diseño. La estructura define la disposición y el posicionamiento de los elementos, mientras que el diseño se refiere a la apariencia visual, como colores y fuentes.
+2.	Separación de contenedor y contenido: Los estilos aplicados a un contenedor no deben depender de los estilos aplicados a su contenido, y viceversa. Esto facilita la reutilización de contenedores con diferentes tipos de contenido.
+Ejemplo de aplicación OOCSS:
+Supongamos que queremos crear un botón con un estilo básico y otro botón con un estilo adicional de borde redondeado y color de fondo diferente. Aplicando OOCSS, podríamos crear estilos reutilizables y separar la estructura del diseño.
+<!-- Botón básico -->
+<button class="btn btn-basic">Click Me</button>
+
+<!-- Botón con borde redondeado -->
+<button class="btn btn-rounded">Click Me Too</button>
+/* Estilos para el botón básico */
+.btn {
+  display: inline-block;
+  padding: 10px 20px;
+  border: 1px solid #ccc;
+  text-align: center;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+/* Estilos para el botón classic */
+.btn-basic {
+  background-color: #e6e6e6;
+  color: #666;
+}
+
+/* Estilos para el botón con borde redondeado */
+.btn-rounded {
+  border-radius: 20px;
+  background-color: #007bff;
+  color: white;
+}
+
+
+Arquitectura ITCSS 🛖
+I:InvertedT:TrianguleCSS
+ITCSS es una colección de pribcioios y metricas.
+La idea es visualizar el css como un triángulo invertido en capas .
+Principios Basicos
+1.	Sin ID, en css
+2.	Patrón component UI
+3.	Arquitectura basada en clases
+Metricas
+1.	De estilos genericos a estilos específicos
+2.	De baja especificidad a alta especficidad
+3.	De largo alcance a localizado
+Triangulo
+Magnitud
+Especificidad Claridad .
+Magnitud: Alcance e impacto en cantidad de elementos
+Especificidad: Fuerza del selector y sus propiedades
+Claridad: Menor abstracción en la semántica e impacto del selector .
+Beneficios
+•	Estilos globales se comparten de manera más eficaz y eficiente
+•	Disminución de batallas por especificidad
+•	Menos redudancia
+Capas
+•	Settings
+•	Variables globales
+•	Tools (Solo en caso de que se usen preprocesadores)
+•	Funciones globales y mixins
+•	Generic
+•	CSS comun
+•	Elements
+•	Estilos de Selectores de elementos
+•	Objects
+•	Selectores basados en clases para objetos o contenedores
+•	Components
+•	Estilos para cada componente
+•	Trumps
+•	Estilos de utilidad y ayuda
+•	En este caso podemos usar !important 🦠
+
